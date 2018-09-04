@@ -1,0 +1,22 @@
+# History dump for Ubuntu 14.04 instance running on Cloud9
+
+virtualenv env
+source env/bin/activate
+sudo apt-get update
+sudo apt-get install imagemagick poppler-utils
+sudo pip3 install --upgrade pip setuptools wheel
+sudo pip3 install -r requirements.txt
+echo "deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen"  | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo apt-get install -y libcurl3 openssl
+mongod --smallfiles &
+python3 fetch_papers.py
+python3 download_pdfs.py
+python3 parse_pdf_to_text.py
+python3 thumb_pdf.py 
+python3 analyze.py 
+sqlite3 as.db < schema.sql
+python3 buildsvm.py 
+python3 make_cache.py 
+python3 serve.py --prod --port 8080
