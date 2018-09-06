@@ -1,5 +1,6 @@
 # History dump for Ubuntu 14.04 instance running on Cloud9
 
+# Run one time
 virtualenv env
 source env/bin/activate
 sudo apt-get update
@@ -10,6 +11,8 @@ echo "deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen"  
 sudo apt-get update
 sudo apt-get install -y mongodb-org
 sudo apt-get install -y libcurl3 openssl
+
+# Run everyday
 mongod --smallfiles &
 python3 fetch_papers.py
 python3 download_pdfs.py
